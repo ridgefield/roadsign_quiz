@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Road Sign Quiz App</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .quiz-container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+        #question-image {
+            display: block; /* Makes the image take its own line */
+            max-width: 100%;
+            height: auto;
+            margin: 0 auto 20px auto; /* Center image and add space below */
+            border: 1px solid #eee;
+            border-radius: 5px;
+        }
+        #question {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center; /* Center the question text */
+        }
+        .answer-buttons {
+            display: grid;
+            gap: 10px;
+        }
+        .btn {
+            background-color: #f0f0f0;
+            color: #333;
+            border: 1px solid #ccc;
+            padding: 15px;
+            text-align: left;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+            font-size: 1em;
+        }
+        .btn:hover:not(.correct):not(.incorrect) {
+            background-color: #ddd;
+        }
+        /* Style for correctness feedback */
+        .btn.correct {
+            background-color: #4CAF50; /* Green */
+            color: white;
+            border-color: #388e3c;
+        }
+        .btn.incorrect {
+            background-color: #f44336; /* Red */
+            color: white;
+            border-color: #d32f2f;
+        }
+        .score-section {
+            text-align: center;
+            font-size: 1.8em;
+            color: #2196F3;
+        }
+        .score-section button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<audio id="coin">
+  <source src="https://www.dropbox.com/scl/fi/u4h7rdegexusgoecg0ob2/coin.mp3?rlkey=n2v8ypcfrbkqrvc19eix9b1zh&st=f1i4hi2i&dl=1" type="audio/mpeg">
+</audio>
+
+<audio id="wrong">
+  <source src="https://www.dropbox.com/scl/fi/q5meqntizmfujf3iogm9e/wrong.mp3?rlkey=obo2vww6vo2tolqhxtru82cqp&st=gelnm2am&dl=1" type="audio/mpeg">
+</audio>
+
+<audio id="jackpot">
+  <source src="https://www.dropbox.com/scl/fi/o3efpsnrbaxy86w50g12u/jackpot.mp3?rlkey=2fsqwebede5t9iqjxvek6vt9x&st=ghpz5dt7&dl=1" type="audio/mpeg">
+</audio>
+
+<div class="quiz-container">
+    <div id="quiz-box">
+        <img id="question-image" src="" alt="Vägmärke" style="display:none;">
+        <h2 id="question">What does this sign mean?</h2>
+        <div class="answer-buttons" id="answer-buttons">
+            <button class="btn">Answer 1</button>
+            <button class="btn">Answer 2</button>
+            <button class="btn">Answer 3</button>
+            <button class="btn">Answer 4</button>
+        </div>
+    </div>
+    <div id="result-box" class="score-section" style="display:none;">
+        <p>You scored <span id="score-display">0</span> out of <span id="total-questions">0</span>!</p>
+        <button onclick="startQuiz()">Play Again</button>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        {
+            image: "https://www.dropbox.com/scl/fi/wf6o43gdh2gvsf4yyc24x/farlig_kurva.png?rlkey=ftwboxboxlhrhp5329hn8702j&e=1&st=u1mor9fh&dl=1",
+            answers: [
+                { text: "Kryssmärke - Ett spår", correct: false },
+                { text: "Varning för farlig kurva", correct: true },
+                { text: "Varning för svag vägkant eller hög körbanekant", correct: false },
+                { text: "Varning för ridande", correct: false },
+            ]
+        },
+        {
+            image: "https://www.dropbox.com/scl/fi/k6pitqtic9s74afgyr4qi/pabjuden_korrikning.png?rlkey=zlmpqfj79s5hk89bq345vu3tp&st=ked66pme&dl=1",
+            answers: [
+                { text: "Påbjuden ridväg", correct: false },
+                { text: "Påbjuden körriktning - Höger", correct: true },
+                { text: "Påbjuden led för terrängmotorfordon och terrängsläp", correct: false },
+                { text: "Påbjuden körbana - Höger eller vänster", correct: false },
+            ]
+        },
+        {
+            image: "https://www.dropbox.com/scl/fi/2j5d5gvj18rx9ghpnjw4c/huvudled.png?rlkey=3jjk8rkjdxiz8narbidreincp&st=4qryxa93&dl=1",
+            answers: [
+                { text: "Mötande trafik har väjningsplikt", correct: false },
+                { text: "Huvudled upphör", correct: false },
+                { text: "Väjningsplikt mot mötande trafik", correct: false },
+                { text: "Huvudled", correct: true },
+            ]
+        },
+        {
+            image: "https://www.dropbox.com/scl/fi/ioz9ldtd3mq2hqeq901o9/forbud_mot_fordonstrafik.png?rlkey=wxxhtbt1dwny62qd8zukybike&st=yeji7j49&dl=1",
+            answers: [
+                { text: "Förbud mot trafik med fordon", correct: true },
+                { text: "Förbud mot gångtrafik", correct: false },
+                { text: "Förbud mot trafik med fordon förspänt med dragdjur", correct: false },
+                { text: "Förbud mot trafik med annat motordrivet fordon än moped klass 2", correct: false },
+            ]
+        },
+        {
+            image: "https://www.dropbox.com/scl/fi/0m8dgbczqqmji5dxh34rt/nedsatt_syn.png?rlkey=22di54jelsfk27byj8o8hjc48&st=buf77y3s&dl=1",
+            answers: [
+                { text: "Parkeringsskiva", correct: false },
+                { text: "Nedsatt syn", correct: true },
+                { text: "Utsträckning av förbud - Vänster", correct: false },
+                { text: "Nedsatt hörsel", correct: false },
+            ]
+        },
+        {
+            image: "https://www.dropbox.com/scl/fi/29q024icv7u6q2ls9y65b/omkorning_forbjuden.png?rlkey=01qp7p7fqznhd14li5l30xf7b&st=c6t9nggt&dl=1",
+            answers: [
+                { text: "Förbud mot trafik med motordrivet fordon med fler än två hjul", correct: false },
+                { text: "Omkörning förbjuden", correct: true },
+                { text: "Förbud mot trafik med cykel och moped klass 2", correct: false },
+                { text: "Förbud mot trafik med traktor och motorredskap klass 2", correct: false },
+            ]
+        },
+        {
+            image: "https://www.dropbox.com/scl/fi/4rh1mvezhxkndrgwzrq72/parkeringsforbud.png?rlkey=6ts3b9ew4rh4q2js6ekj81ueq&st=8i3yarsz&dl=1",
+            answers: [
+                { text: "Förbud mot att parkera fordon", correct: true },
+                { text: "Tillfällig hastighetsbegränsning upphör - 20 km/h", correct: false },
+                { text: "Förbud mot trafik med moped klass 2", correct: false },
+                { text: "Förbud mot att parkera fordon på dag med jämnt datum", correct: false },
+            ]
+        },
+        {
+            image: "https://www.dropbox.com/scl/fi/a3052m5bq3qbhnov6ryro/tatbebyggt_omrade.png?rlkey=y3u81t3iwy4yxqeq3pyznb1pz&st=pq15qdhh&dl=1",
+            answers: [
+                { text: "Cykelgata upphör", correct: false },
+                { text: "Tätbebyggt område", correct: true },
+                { text: "Mötesplats", correct: false },
+                { text: "Nödutgång - Åt väster", correct: false },
+            ]
+        },
+        {
+            image: "https://www.dropbox.com/scl/fi/png8zwddohy2yz6ath1c4/gagata.png?rlkey=vbcscf71he9v6usx12e2g07rw&st=qu46wom6&dl=1",
+            answers: [
+                { text: "Rekommenderad lägre hastighet upphör - 40 km/h", correct: false },
+                { text: "Automatisk trafikövervakning", correct: false },
+                { text: "Gågata", correct: true },
+                { text: "Gågata upphör", correct: false },
+            ]
+        },
+        {
+            image: "https://www.dropbox.com/scl/fi/4cmon070yxt2m2pet34dd/begransad_fordonsbredd.png?rlkey=w2lvapbl3il8afxm7e8nqljav&st=l9c5gqy5&dl=1",
+            answers: [
+                { text: "Förbud mot trafik med motordrivet fordon med fler än två hjul", correct: false },
+                { text: "Förbud mot trafik med fordon", correct: false },
+                { text: "Begränsad fordonsbredd", correct: true },
+                { text: "Omkörning förbjuden", correct: false },
+            ]
+        },
+    ];
+
+
+
+    const questionImageElement = document.getElementById("question-image"); // Get the image element
+    const questionElement = document.getElementById("question");
+    const answerButtonsElement = document.getElementById("answer-buttons");
+    const quizBox = document.getElementById("quiz-box");
+    const resultBox = document.getElementById("result-box");
+    const scoreDisplay = document.getElementById("score-display");
+    const totalQuestionsDisplay = document.getElementById("total-questions");
+
+    let currentQuestionIndex = 0;
+    let score = 0;
+
+    function startQuiz() {
+        currentQuestionIndex = 0;
+        score = 0;
+        quizBox.style.display = "block";
+        resultBox.style.display = "none";
+        showQuestion();
+    }
+
+    function showQuestion() {
+        resetState();
+
+        let currentQuestion = questions[currentQuestionIndex];
+
+        // ** Update the image source and display it **
+        questionImageElement.src = currentQuestion.image;
+        questionImageElement.style.display = "block"; // Make sure the image is visible
+
+        questionElement.innerHTML = (currentQuestionIndex + 1) + ". " + "Vad betyder det här märket?";
+
+        currentQuestion.answers.forEach(answer => {
+            const button = document.createElement("button");
+            button.innerHTML = answer.text;
+            button.classList.add("btn");
+
+            if (answer.correct) {
+                button.dataset.correct = answer.correct;
+            }
+
+            button.addEventListener("click", selectAnswer);
+            answerButtonsElement.appendChild(button);
+        });
+    }
+
+    function resetState() {
+        // Hide the image by default before loading a new one
+        questionImageElement.style.display = "none";
+        while (answerButtonsElement.firstChild) {
+            answerButtonsElement.removeChild(answerButtonsElement.firstChild);
+        }
+    }
+
+    function selectAnswer(e) {
+        const selectedBtn = e.target;
+        const isCorrect = selectedBtn.dataset.correct === "true";
+
+        if (isCorrect) {
+            playSound("coin");
+            selectedBtn.classList.add("correct");
+            score++;
+        } else {
+            playSound("wrong");
+            selectedBtn.classList.add("incorrect");
+        }
+
+        Array.from(answerButtonsElement.children).forEach(button => {
+            if (button.dataset.correct === "true") {
+                button.classList.add("correct");
+            } else {
+                showQuestion();
+            }
+            button.disabled = true;
+        });
+
+        // setTimeout(handleNextButton, 1000);
+    }
+
+    function handleNextButton() {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+            showQuestion();
+        } else {
+            showResult();
+        }
+    }
+
+    function showResult() {
+        resetState();
+        playSound("jackpot")
+        quizBox.style.display = "none";
+        resultBox.style.display = "block";
+
+        scoreDisplay.innerHTML = score;
+        totalQuestionsDisplay.innerHTML = questions.length;
+    }
+
+    function playSound(soundName) {
+        const audio = document.getElementById(soundName);
+
+        audio.pause();
+        audio.currentTime = 0;
+
+        audio.play().catch(error => {
+            console.error("Audio playback failed:", error);
+        });
+    }
+
+    startQuiz();
+
+</script>
+
+</body>
+</html>
