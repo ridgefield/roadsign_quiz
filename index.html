@@ -80,24 +80,30 @@
 </head>
 <body>
 <audio id="coin">
-  <source src="https://www.dropbox.com/scl/fi/u4h7rdegexusgoecg0ob2/coin.mp3?rlkey=n2v8ypcfrbkqrvc19eix9b1zh&st=f1i4hi2i&dl=1" type="audio/mpeg">
+  <source src="https://www.dropbox.com/scl/fi/u4h7rdegexusgoecg0ob2/coin.mp3?rlkey=n2v8ypcfrbkqrvc19eix9b1zh&st=f1i4hi2i&dl=1" preload="auto" type="audio/mpeg">
 </audio>
 
 <audio id="wrong">
-  <source src="https://www.dropbox.com/scl/fi/q5meqntizmfujf3iogm9e/wrong.mp3?rlkey=obo2vww6vo2tolqhxtru82cqp&st=gelnm2am&dl=1" type="audio/mpeg">
+  <source src="https://www.dropbox.com/scl/fi/q5meqntizmfujf3iogm9e/wrong.mp3?rlkey=obo2vww6vo2tolqhxtru82cqp&st=gelnm2am&dl=1" preload="auto" type="audio/mpeg">
 </audio>
 
 <audio id="jackpot">
-  <source src="https://www.dropbox.com/scl/fi/o3efpsnrbaxy86w50g12u/jackpot.mp3?rlkey=2fsqwebede5t9iqjxvek6vt9x&st=ghpz5dt7&dl=1" type="audio/mpeg">
+  <source src="https://www.dropbox.com/scl/fi/o3efpsnrbaxy86w50g12u/jackpot.mp3?rlkey=2fsqwebede5t9iqjxvek6vt9x&st=ghpz5dt7&dl=1" preload="auto" type="audio/mpeg">
 </audio>
 
+<audio id="startup">
+  <source src="https://www.dropbox.com/scl/fi/aeebwxp2qntey510kiu7i/startup.mp3?rlkey=bwxux25fu4jw4xcnkltd8dhle&st=5w83cw3p&dl=1" preload="auto" type="audio/mpeg">
+</audio>
+
+
 <div class="quiz-container">
-    <div id="start_screen">
-        Välkommen till vägmärkesspelet</br>
-        Spela och vinn pengar till körkrt och moped
+    <div id="start_screen" class="score-section">
+        <p>Välkommen till vägmärkesspelet</p>
+        <p>Spela och vinn pengar till körkort och moped</p>
+        <div style="border:solid 1px;" id="gameon">Starta</div>
     </div>
     <div id="quiz-box">
-        <div id="price" style="text-align: center;height:40px;font-size: 20px;">Presentpeng 0 kr</div>
+        <div id="price" style="text-align: center;height:40px;font-size: 20px;">Vinst 0 kr</div>
         <div style="height:500px;">
             <img id="question-image" src="" alt="Vägmärke" style="display:none;">
         </div>
@@ -113,6 +119,7 @@
         <p>Grattis på 15 årsdagen!!<br/></p>
         <span style="font-size: 70px;">&#127873;&#x1F389;</span>
         <p>Vinsten kommer på Swish</p>
+        <span style="font-size: 70px;">&#128181;&#128181;&#128181;&#128181;&#128181;</span>
         <!-- <button onclick="startQuiz()">Spela igen</button> -->
     </div>
 </div>
@@ -221,6 +228,8 @@
     const scoreDisplay = document.getElementById("score-display");
     const totalQuestionsDisplay = document.getElementById("total-questions");
     const price = document.getElementById("price");
+    const start_screen = document.getElementById("start_screen");
+    const gameon = document.getElementById("gameon");
 
     let currentQuestionIndex = 0;
     let score = 0;
@@ -228,9 +237,18 @@
     function startQuiz() {
         currentQuestionIndex = 0;
         score = 0;
-        quizBox.style.display = "block";
+        start_screen.style.display = "block";
+        quizBox.style.display = "none";
         resultBox.style.display = "none";
         price.innerHTML = "Vinst 0 kr";
+        gameon.addEventListener("click", gogo);
+        // showQuestion();
+    }
+
+    function gogo() {
+        start_screen.style.display = "none";
+        quizBox.style.display = "block";
+        playSound("startup");
         showQuestion();
     }
 
@@ -276,7 +294,7 @@
             selectedBtn.classList.add("correct");
             score++;
             let a = 100*score;
-            price.innerHTML = "Presentpeng " + a + "kr";
+            price.innerHTML = "Vinst " + a + "kr";
 
             setTimeout(handleNextButton, 1000);
         } else {
@@ -317,14 +335,28 @@
         // totalQuestionsDisplay.innerHTML = questions.length;
     }
 
+    // function playSound(soundName) {
+    //     const audio = document.getElementById(soundName);
+
+    //     audio.pause();
+    //     audio.currentTime = 0;
+
+    //     audio.play().catch(error => {
+    //         console.error("Audio playback failed:", error);
+    //     });
+    // }
+
     function playSound(soundName) {
         const audio = document.getElementById(soundName);
 
-        audio.pause();
-        audio.currentTime = 0;
+        // Force iOS to reload buffer if needed
+        if (audio.readyState < 2) {
+            audio.load();
+        }
 
+        audio.currentTime = 0;
         audio.play().catch(error => {
-            console.error("Audio playback failed:", error);
+            console.warn("Playback blocked on iOS:", error);
         });
     }
 
