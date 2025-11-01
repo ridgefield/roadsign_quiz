@@ -104,7 +104,7 @@
     </div>
     <div id="quiz-box">
         <div id="price" style="text-align: center;height:40px;font-size: 20px;">Vinst 0 kr</div>
-        <div style="height:500px;">
+        <div style="min-height:300px;">
             <img id="question-image" src="" alt="Vägmärke" style="display:none;">
         </div>
         <h2 id="question">What does this sign mean?</h2>
@@ -134,88 +134,88 @@
                 { text: "Varning för svag vägkant eller hög körbanekant", correct: false },
                 { text: "Varning för ridande", correct: false },
             ]
-        }
-        // {
-        //     image: "https://www.dropbox.com/scl/fi/k6pitqtic9s74afgyr4qi/pabjuden_korrikning.png?rlkey=zlmpqfj79s5hk89bq345vu3tp&st=ked66pme&dl=1",
-        //     answers: [
-        //         { text: "Påbjuden ridväg", correct: false },
-        //         { text: "Påbjuden körriktning - Höger", correct: true },
-        //         { text: "Påbjuden led för terrängmotorfordon och terrängsläp", correct: false },
-        //         { text: "Påbjuden körbana - Höger eller vänster", correct: false },
-        //     ]
-        // },
-        // {
-        //     image: "https://www.dropbox.com/scl/fi/2j5d5gvj18rx9ghpnjw4c/huvudled.png?rlkey=3jjk8rkjdxiz8narbidreincp&st=4qryxa93&dl=1",
-        //     answers: [
-        //         { text: "Mötande trafik har väjningsplikt", correct: false },
-        //         { text: "Huvudled upphör", correct: false },
-        //         { text: "Väjningsplikt mot mötande trafik", correct: false },
-        //         { text: "Huvudled", correct: true },
-        //     ]
-        // },
-        // {
-        //     image: "https://www.dropbox.com/scl/fi/ioz9ldtd3mq2hqeq901o9/forbud_mot_fordonstrafik.png?rlkey=wxxhtbt1dwny62qd8zukybike&st=yeji7j49&dl=1",
-        //     answers: [
-        //         { text: "Förbud mot trafik med fordon", correct: true },
-        //         { text: "Förbud mot gångtrafik", correct: false },
-        //         { text: "Förbud mot trafik med fordon förspänt med dragdjur", correct: false },
-        //         { text: "Förbud mot trafik med annat motordrivet fordon än moped klass 2", correct: false },
-        //     ]
-        // },
-        // {
-        //     image: "https://www.dropbox.com/scl/fi/0m8dgbczqqmji5dxh34rt/nedsatt_syn.png?rlkey=22di54jelsfk27byj8o8hjc48&st=buf77y3s&dl=1",
-        //     answers: [
-        //         { text: "Parkeringsskiva", correct: false },
-        //         { text: "Nedsatt syn", correct: true },
-        //         { text: "Utsträckning av förbud - Vänster", correct: false },
-        //         { text: "Nedsatt hörsel", correct: false },
-        //     ]
-        // },
-        // {
-        //     image: "https://www.dropbox.com/scl/fi/29q024icv7u6q2ls9y65b/omkorning_forbjuden.png?rlkey=01qp7p7fqznhd14li5l30xf7b&st=c6t9nggt&dl=1",
-        //     answers: [
-        //         { text: "Förbud mot trafik med motordrivet fordon med fler än två hjul", correct: false },
-        //         { text: "Omkörning förbjuden", correct: true },
-        //         { text: "Förbud mot trafik med cykel och moped klass 2", correct: false },
-        //         { text: "Förbud mot trafik med traktor och motorredskap klass 2", correct: false },
-        //     ]
-        // },
-        // {
-        //     image: "https://www.dropbox.com/scl/fi/4rh1mvezhxkndrgwzrq72/parkeringsforbud.png?rlkey=6ts3b9ew4rh4q2js6ekj81ueq&st=8i3yarsz&dl=1",
-        //     answers: [
-        //         { text: "Förbud mot att parkera fordon", correct: true },
-        //         { text: "Tillfällig hastighetsbegränsning upphör - 20 km/h", correct: false },
-        //         { text: "Förbud mot trafik med moped klass 2", correct: false },
-        //         { text: "Förbud mot att parkera fordon på dag med jämnt datum", correct: false },
-        //     ]
-        // },
-        // {
-        //     image: "https://www.dropbox.com/scl/fi/a3052m5bq3qbhnov6ryro/tatbebyggt_omrade.png?rlkey=y3u81t3iwy4yxqeq3pyznb1pz&st=pq15qdhh&dl=1",
-        //     answers: [
-        //         { text: "Cykelgata upphör", correct: false },
-        //         { text: "Tätbebyggt område", correct: true },
-        //         { text: "Mötesplats", correct: false },
-        //         { text: "Nödutgång - Åt väster", correct: false },
-        //     ]
-        // },
-        // {
-        //     image: "https://www.dropbox.com/scl/fi/png8zwddohy2yz6ath1c4/gagata.png?rlkey=vbcscf71he9v6usx12e2g07rw&st=qu46wom6&dl=1",
-        //     answers: [
-        //         { text: "Rekommenderad lägre hastighet upphör - 40 km/h", correct: false },
-        //         { text: "Automatisk trafikövervakning", correct: false },
-        //         { text: "Gågata", correct: true },
-        //         { text: "Gågata upphör", correct: false },
-        //     ]
-        // },
-        // {
-        //     image: "https://www.dropbox.com/scl/fi/4cmon070yxt2m2pet34dd/begransad_fordonsbredd.png?rlkey=w2lvapbl3il8afxm7e8nqljav&st=l9c5gqy5&dl=1",
-        //     answers: [
-        //         { text: "Förbud mot trafik med motordrivet fordon med fler än två hjul", correct: false },
-        //         { text: "Förbud mot trafik med fordon", correct: false },
-        //         { text: "Begränsad fordonsbredd", correct: true },
-        //         { text: "Omkörning förbjuden", correct: false },
-        //     ]
-        // },
+        },
+        {
+            image: "https://www.dropbox.com/scl/fi/k6pitqtic9s74afgyr4qi/pabjuden_korrikning.png?rlkey=zlmpqfj79s5hk89bq345vu3tp&st=ked66pme&dl=1",
+            answers: [
+                { text: "Påbjuden ridväg", correct: false },
+                { text: "Påbjuden körriktning - Höger", correct: true },
+                { text: "Påbjuden led för terrängmotorfordon och terrängsläp", correct: false },
+                { text: "Påbjuden körbana - Höger eller vänster", correct: false },
+            ]
+        },
+        {
+            image: "https://www.dropbox.com/scl/fi/2j5d5gvj18rx9ghpnjw4c/huvudled.png?rlkey=3jjk8rkjdxiz8narbidreincp&st=4qryxa93&dl=1",
+            answers: [
+                { text: "Mötande trafik har väjningsplikt", correct: false },
+                { text: "Huvudled upphör", correct: false },
+                { text: "Väjningsplikt mot mötande trafik", correct: false },
+                { text: "Huvudled", correct: true },
+            ]
+        },
+        {
+            image: "https://www.dropbox.com/scl/fi/ioz9ldtd3mq2hqeq901o9/forbud_mot_fordonstrafik.png?rlkey=wxxhtbt1dwny62qd8zukybike&st=yeji7j49&dl=1",
+            answers: [
+                { text: "Förbud mot trafik med fordon", correct: true },
+                { text: "Förbud mot gångtrafik", correct: false },
+                { text: "Förbud mot trafik med fordon förspänt med dragdjur", correct: false },
+                { text: "Förbud mot trafik med annat motordrivet fordon än moped klass 2", correct: false },
+            ]
+        },
+        {
+            image: "https://www.dropbox.com/scl/fi/0m8dgbczqqmji5dxh34rt/nedsatt_syn.png?rlkey=22di54jelsfk27byj8o8hjc48&st=buf77y3s&dl=1",
+            answers: [
+                { text: "Parkeringsskiva", correct: false },
+                { text: "Nedsatt syn", correct: true },
+                { text: "Utsträckning av förbud - Vänster", correct: false },
+                { text: "Nedsatt hörsel", correct: false },
+            ]
+        },
+        {
+            image: "https://www.dropbox.com/scl/fi/29q024icv7u6q2ls9y65b/omkorning_forbjuden.png?rlkey=01qp7p7fqznhd14li5l30xf7b&st=c6t9nggt&dl=1",
+            answers: [
+                { text: "Förbud mot trafik med motordrivet fordon med fler än två hjul", correct: false },
+                { text: "Omkörning förbjuden", correct: true },
+                { text: "Förbud mot trafik med cykel och moped klass 2", correct: false },
+                { text: "Förbud mot trafik med traktor och motorredskap klass 2", correct: false },
+            ]
+        },
+        {
+            image: "https://www.dropbox.com/scl/fi/4rh1mvezhxkndrgwzrq72/parkeringsforbud.png?rlkey=6ts3b9ew4rh4q2js6ekj81ueq&st=8i3yarsz&dl=1",
+            answers: [
+                { text: "Förbud mot att parkera fordon", correct: true },
+                { text: "Tillfällig hastighetsbegränsning upphör - 20 km/h", correct: false },
+                { text: "Förbud mot trafik med moped klass 2", correct: false },
+                { text: "Förbud mot att parkera fordon på dag med jämnt datum", correct: false },
+            ]
+        },
+        {
+            image: "https://www.dropbox.com/scl/fi/a3052m5bq3qbhnov6ryro/tatbebyggt_omrade.png?rlkey=y3u81t3iwy4yxqeq3pyznb1pz&st=pq15qdhh&dl=1",
+            answers: [
+                { text: "Cykelgata upphör", correct: false },
+                { text: "Tätbebyggt område", correct: true },
+                { text: "Mötesplats", correct: false },
+                { text: "Nödutgång - Åt väster", correct: false },
+            ]
+        },
+        {
+            image: "https://www.dropbox.com/scl/fi/png8zwddohy2yz6ath1c4/gagata.png?rlkey=vbcscf71he9v6usx12e2g07rw&st=qu46wom6&dl=1",
+            answers: [
+                { text: "Rekommenderad lägre hastighet upphör - 40 km/h", correct: false },
+                { text: "Automatisk trafikövervakning", correct: false },
+                { text: "Gågata", correct: true },
+                { text: "Gågata upphör", correct: false },
+            ]
+        },
+        {
+            image: "https://www.dropbox.com/scl/fi/4cmon070yxt2m2pet34dd/begransad_fordonsbredd.png?rlkey=w2lvapbl3il8afxm7e8nqljav&st=l9c5gqy5&dl=1",
+            answers: [
+                { text: "Förbud mot trafik med motordrivet fordon med fler än två hjul", correct: false },
+                { text: "Förbud mot trafik med fordon", correct: false },
+                { text: "Begränsad fordonsbredd", correct: true },
+                { text: "Omkörning förbjuden", correct: false },
+            ]
+        },
     ];
 
 
