@@ -80,7 +80,7 @@
 </head>
 <body>
 <audio id="coin">
-  <source src="https://www.dropbox.com/scl/fi/jly3ly0xu8upn6rgkwgat/screenshot.mp3?rlkey=201msx55i5iqllvetilx5wjv9&st=6nu7ci0n&dl=1" type="audio/mpeg">
+  <source src="https://www.dropbox.com/scl/fi/jly3ly0xu8upn6rgkwgat/screenshot.mp3?rlkey=201msx55i5iqllvetilx5wjv9&st=6nu7ci0n&dl=1" type="audio/mpeg" preload="auto">
 </audio>
 
 <audio id="wrong">
@@ -323,17 +323,29 @@
         // totalQuestionsDisplay.innerHTML = questions.length;
     }
 
+    // function playSound(soundName) {
+    //     const audio = document.getElementById(soundName);
+
+    //     audio.pause();
+    //     audio.currentTime = 0;
+
+    //     audio.play().catch(error => {
+    //         console.error("Audio playback failed:", error);
+    //     });
+    // }
     function playSound(soundName) {
         const audio = document.getElementById(soundName);
 
-        audio.pause();
-        audio.currentTime = 0;
+        // Force iOS to reload buffer if needed
+        if (audio.readyState < 2) {
+            audio.load();
+        }
 
+        audio.currentTime = 0;
         audio.play().catch(error => {
-            console.error("Audio playback failed:", error);
+            console.warn("Playback blocked on iOS:", error);
         });
     }
-
     startQuiz();
 
 </script>
